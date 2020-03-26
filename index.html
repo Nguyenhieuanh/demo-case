@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GUNBOUND</title>
+    <script src="My-JS/const.js"></script>
+</head>
+<style>
+    canvas {
+        background: rgba(196, 191, 170, 0.29);
+    }
+</style>
+<body onkeydown="game.moveTank(event)">
+<canvas id="screen" width="1000" height="500" onclick="game.changeTurn()"></canvas><br/>
+POWER <input type ='text' id="power">
+ANGLE <input type ="text" id="alpha">
+<script src="My-JS/tank.js"></script>
+<script src="My-JS/bullet.js"></script>
+<script src="My-JS/game.js"></script>
+</body>
+
+</html>
