@@ -6,17 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>GUNBOUND</title>
-    <script src="My-JS/const.js"></script>
 </head>
 <style>
-    canvas {
+    body {
+        background-image: url("picture/wot_artboard.png");
+    }
+
+    #screen {
         background: rgba(196, 191, 170, 0.29);
     }
 </style>
 <body onkeydown="game.moveTank(event)">
-<canvas id="screen" width="1000" height="500" onclick="game.changeTurn()"></canvas><br/>
-POWER <input type ='text' id="power">
-ANGLE <input type ="text" id="alpha">
+<audio autoplay id="theme_song">
+    <source src="sound/theme_song.mp3" type="audio/mpeg">
+</audio>
+<canvas id="screen" width="1000" height="500" onclick="game.changeTurn()" onmousemove="game.mousemove(event)"></canvas>
+<canvas id="new_game" width="1000" height="500" onclick="mouseClk(event)"></canvas>
+<script src="My-JS/const.js"></script>
+<script src="My-JS/StartBackgroud.js"></script>
 <script src="My-JS/tank.js"></script>
 <script src="My-JS/bullet.js"></script>
 <script src="My-JS/game.js"></script>

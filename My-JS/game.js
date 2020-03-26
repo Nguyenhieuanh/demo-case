@@ -1,10 +1,13 @@
 let canvas = document.getElementById('screen');
+canvas.style.display = 'none';
 let ctx = canvas.getContext('2d');
 let BattleField = function () {
     this.bullets = [];
     this.isOver = false;
     this.isCollision = false;
     this.turn = 1;
+    this.targetX = 0;
+    this.targetY = 0;
     this.start = function () {
         ctx.drawImage(BACK_GROUND, 0, 0, 1000, 500);
         this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1);
@@ -12,7 +15,6 @@ let BattleField = function () {
         this.tank.draw();
         this.enemy.draw();
     };
-
 
     this.render = function () {
         if (this.isOver) {
@@ -24,7 +26,7 @@ let BattleField = function () {
         this.enemy.draw();
         for (let i = 0; i < this.bullets.length; i++) {
             this.bullets[i].bullet_move();
-            this.bullets[i].draw();
+            this.bullets[i].draw(i+1);
         }
     };
 
@@ -112,12 +114,18 @@ let BattleField = function () {
             this.tank.stamina = 50;
             this.tank.fire();
             this.turn = 2;
-            this.collisionDetected()
+            this.collisionDetected();
         } else {
             this.enemy.stamina = 50;
             this.enemy.fire();
             this.turn = 1;
+            this.collisionDetected();
         }
+    };
+    this.mousemove = function(e) {
+        this.targetX = e.clientX;
+        this.targetY = e.clientY;
+        console.log(this.targetX, this.targetY);
     }
 };
 
@@ -134,6 +142,7 @@ function main() {
     game.render();
     requestAnimationFrame(main);
 }
+
 
 function sound(src) {
     this.sound = document.createElement("audio");

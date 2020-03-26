@@ -44,7 +44,17 @@ let Tank = function (main, x, tankImg) {
     this.fire = function () {
         if (this.main.isOver) return;
         tankFireSound.play();
-        let bullet = new Bullet(this.main, this.x + TANK_WIDTH / 2, this.y - 17);
+        let dx = this.main.targetX - this.x;
+        let dy = this.main.targetY - this.y;
+        let power = Math.floor(Math.sqrt(dx * dx + dy * dy) / 8);
+        let dX = this.main.targetX - this.x;
+        let dY = this.main.targetY - this.y;
+        let alpha = Math.atan2(dY, dX);
+        let directionX = Math.cos(alpha);
+        let directionY = Math.sin(alpha);
+        let bullet_startX = this.x;
+        let bullet_startY = this.y;
+        let bullet = new Bullet(this.main, bullet_startX, bullet_startY, directionX,directionY, power);
         this.main.bullets.push(bullet);
         return this.isFire;
     };
