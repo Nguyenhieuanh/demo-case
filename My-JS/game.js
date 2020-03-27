@@ -9,8 +9,8 @@ let BattleField = function () {
     this.targetY = 0;
     this.start = function () {
         ctx.drawImage(BACK_GROUND, 0, 0, 1000, 500);
-        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1,TANK_1_LEFT);
-        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2,TANK_2_RIGHT);
+        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1_RIGHT,TANK_1_LEFT);
+        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2_RIGHT,TANK_2);
         this.tank.draw();
         this.tank.drawHealthBar();
         this.tank.drawStaminaBar();
