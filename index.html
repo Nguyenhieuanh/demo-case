@@ -15,13 +15,23 @@
     #screen {
         background: rgba(196, 191, 170, 0.29);
     }
+    div#background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    img {
+        width: 1000px;
+        height: 500px;
+    }
 </style>
 <body onkeydown="game.moveTank(event)">
-<audio autoplay id="theme_song">
-    <source src="sound/theme_song.mp3" type="audio/mpeg">
-</audio>
+<div id="background">
+    <img onclick="startGame()" src="picture/newgame.png">
+</div>
 <canvas id="screen" width="1000" height="500" onclick="game.changeTurn()" onmousemove="game.mousemove(event)"></canvas>
-<canvas id="new_game" width="1000" height="500" onclick="mouseClk(event)"></canvas>
+<!--<canvas id="new_game" width="1000" height="500" onclick="mouseClk(event)"></canvas>-->
 <script src="My-JS/const.js"></script>
 <script src="My-JS/StartBackgroud.js"></script>
 <script src="My-JS/tank.js"></script>

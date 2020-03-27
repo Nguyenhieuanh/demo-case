@@ -1,7 +1,6 @@
 let canvasBg = document.getElementById('new_game');
 let ctxBg = canvasBg.getContext('2d');
 ctxBg.drawImage(NEW_GAME_BG,0,0,1000,500);
-
 let mouseX = 0;
 let mouseY = 0;
 let btnPlay = new Button(462, 550,378, 446);
@@ -21,11 +20,14 @@ function Button(xL, xR, yT, yB) {
 function mouseClk(e) {
     mouseX = e.pageX - canvas.offsetLeft;
     mouseY = e.pageY - canvas.offsetTop;
-    console.log(mouseX,mouseY);
     if (btnPlay.checkClicked()) {
         canvas.style.display = 'block';
         canvasBg.style.display = 'none';
     }
+}
+
+function startGame() {
+    document.getElementById("background").style.display = "none";
 }
 
 

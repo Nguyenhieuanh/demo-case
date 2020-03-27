@@ -3,6 +3,7 @@ let Bullet = function (main, bullet_startX, bullet_startY, directionX,directionY
     this.x = bullet_startX;
     this.y = bullet_startY;
     this.radius = RADIUS;
+    this.damage = Math.floor(Math.random()*10+3);
     let count = 0;
     this.speedX = power * directionX;
     this.speedY = power * directionY;

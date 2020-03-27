@@ -1,32 +1,39 @@
 let canvas = document.getElementById('screen');
-canvas.style.display = 'none';
+// canvas.style.display = 'none';
 let ctx = canvas.getContext('2d');
 let BattleField = function () {
     this.bullets = [];
     this.isOver = false;
-    this.isCollision = false;
     this.turn = 1;
     this.targetX = 0;
     this.targetY = 0;
     this.start = function () {
         ctx.drawImage(BACK_GROUND, 0, 0, 1000, 500);
-        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1);
-        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2);
+        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1,TANK_1_LEFT);
+        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2,TANK_2_RIGHT);
         this.tank.draw();
+        this.tank.drawHealthBar();
+        this.tank.drawStaminaBar();
         this.enemy.draw();
+        this.enemy.drawHealthBar();
+        this.enemy.drawStaminaBar();
     };
 
     this.render = function () {
-        if (this.isOver) {
-            return;
-        }
+        // if (this.isOver) {
+        //     this.gameOverDraw();
+        // }
         ctx.clearRect(0, 0, GAMEBOARD_WIDTH, GAMEBOARD_HEIGHT);
         ctx.drawImage(BACK_GROUND, 0, 0, 1000, 500);
         this.tank.draw();
+        this.tank.drawHealthBar();
+        this.tank.drawStaminaBar();
         this.enemy.draw();
+        this.enemy.drawHealthBar();
+        this.enemy.drawStaminaBar();
         for (let i = 0; i < this.bullets.length; i++) {
             this.bullets[i].bullet_move();
-            this.bullets[i].draw(i+1);
+            this.bullets[i].draw(i + 1);
         }
     };
 
@@ -55,10 +62,6 @@ let BattleField = function () {
         }
     };
 
-    this.getEnemy = function () {
-        return this.enemy;
-    };
-
     this.removeBullet = function (bullet) {
         let index = -1;
         for (let i = 0; i < this.bullets.length; i++) {
@@ -75,54 +78,56 @@ let BattleField = function () {
     this.removeObj = function (obj) {
         if (obj === this.tank) {
             this.tank = new Tank(this, this.tank.getX(), EXPLOSIVE);
-            this.end();
-        } else
+        } else {
             this.enemy = new Tank(this, this.enemy.getX(), EXPLOSIVE);
-        this.end();
+        }
     };
 
     this.collisionDetected = function () {
         for (let i = 0; i < this.bullets.length; i++) {
             if (this.turn === 1) {
-                if (this.tank.collision(this.bullets[i])) {
+                if (this.tank.collision(this.bullets[i]) && this.tank.health > 0) {
+                    explosionSound.play();
+                    this.tank.takeDamage();
+                    this.removeBullet(this.bullets[i]);
+                    break;
+                } else if (this.tank.collision(this.bullets[i]) && this.tank.health <= 0) {
                     explosionSound.play();
                     this.removeObj(this.tank);
-                    this.removeBullet(this.bullets[i]);
-                    this.isCollision = true;
-                    break;
+                    this.removeBullet();
+                    this.isOver = true;
                 }
-            } else if (this.enemy.collision(this.bullets[i])) {
-                explosionSound.play();
-                this.removeObj(this.enemy);
-                this.removeBullet(this.bullets[i]);
-                this.isCollision = true;
-                break;
+            } else {
+                if (this.enemy.collision(this.bullets[i]) && this.enemy.health > 0) {
+                    explosionSound.play();
+                    this.enemy.takeDamage();
+                    this.removeBullet(this.bullets[i]);
+                    break;
+                } else if (this.enemy.collision(this.bullets[i]) && this.enemy.health <= 0) {
+                    explosionSound.play();
+                    this.removeObj(this.enemy);
+                    this.removeBullet();
+                    this.isOver = true;
+                }
             }
         }
         this.render();
     };
 
-    this.end = function () {
-        if (this.isCollision) {
-            this.isOver = true;
-        }
-    };
-
     this.changeTurn = function () {
-        if(this.isOver) return;
         if (this.turn === 1) {
-            this.tank.stamina = 50;
+            this.tank.stamina = MAX_STAMINA;
             this.tank.fire();
             this.turn = 2;
             this.collisionDetected();
         } else {
-            this.enemy.stamina = 50;
+            this.enemy.stamina = MAX_STAMINA;
             this.enemy.fire();
             this.turn = 1;
             this.collisionDetected();
         }
     };
-    this.mousemove = function(e) {
+    this.mousemove = function (e) {
         this.targetX = e.clientX;
         this.targetY = e.clientY;
         console.log(this.targetX, this.targetY);
@@ -140,6 +145,10 @@ main();
 function main() {
     game.collisionDetected();
     game.render();
+    if (game.isOver) {
+        ctx.drawImage(GAME_OVER, 250, 0, 500, 500);
+        return;
+    }
     requestAnimationFrame(main);
 }
 
