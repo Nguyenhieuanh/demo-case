@@ -9,8 +9,8 @@ let BattleField = function () {
     this.targetY = 0;
     this.start = function () {
         ctx.drawImage(BACK_GROUND, 0, 0, 1000, 500);
-        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1_RIGHT,TANK_1_LEFT);
-        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2_RIGHT,TANK_2);
+        this.tank = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_1_RIGHT, TANK_1_LEFT);
+        this.enemy = new Tank(this, Math.random() * (GAMEBOARD_WIDTH - 70), TANK_2_RIGHT, TANK_2);
         this.tank.draw();
         this.tank.drawHealthBar();
         this.tank.drawStaminaBar();
@@ -115,6 +115,9 @@ let BattleField = function () {
     };
 
     this.changeTurn = function () {
+        if (this.isOver) {
+            location.reload(true);
+        }
         if (this.turn === 1) {
             this.tank.stamina = MAX_STAMINA;
             this.tank.fire();
@@ -151,7 +154,6 @@ function main() {
     }
     requestAnimationFrame(main);
 }
-
 
 function sound(src) {
     this.sound = document.createElement("audio");

@@ -83,7 +83,7 @@ let Tank = function (main, x, tankImg,tankImg2) {
         tankFireSound.play();
         let dx = this.main.targetX - this.x;
         let dy = this.main.targetY - this.y;
-        let power = Math.floor(Math.sqrt(dx * dx + dy * dy) / 8);
+        let power = Math.floor(Math.sqrt(dx * dx + dy * dy) / 6);
         let dX = this.main.targetX - this.x;
         let dY = this.main.targetY - this.y;
         let alpha = Math.atan2(dY, dX);
